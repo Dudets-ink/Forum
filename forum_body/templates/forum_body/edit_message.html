@@ -1,0 +1,15 @@
+{% extends 'forum_body/base.html' %}
+
+{% block title %}
+	- edit 
+{% endblock %}
+
+{% block content %}
+	<h2 align=Center> Editting: {{ discussion.head }} message </h2>
+	<hr>
+	<form action="{% url 'forum_body:message_edit' topic.name discussion.id message.id %}" method='POST'>
+		{% csrf_token %}
+		{{ form.as_p }}
+		<button name='submit'>Enter</button>
+	</form>
+{% endblock %}

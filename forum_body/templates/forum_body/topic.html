@@ -1,0 +1,26 @@
+{% extends 'forum_body/base.html' %}
+{% load bootstrap4 %}
+
+{% block title %}
+	- {{topic_name}}
+{% endblock %}
+
+{% block content %}
+		<h2 align=Center>Choose discussion</h2>
+		{% if user.is_authenticated %}
+		<a href='{% url 'forum_body:new_discussion' topic.name %}'
+		  class='btn btn-primary mb-2'>
+			Add new discussion
+		</a>
+	{% else %}
+		<p class='btn btn-primary'>Login in to add new discussions</p>
+	{% endif %}
+		{% for discussion in discussions %}
+	<div class='card mb-3'> 
+			<a href="{% url 'forum_body:discussion' topic.name discussion.id %}"
+			class='card-header'>
+			      {{ discussion.head }}
+			</a>
+	</div>
+		{% endfor %}
+{% endblock %}

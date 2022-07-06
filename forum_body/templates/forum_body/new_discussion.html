@@ -1,0 +1,15 @@
+{% extends 'forum_body/base.html' %}
+
+{% block title %}
+	- new discussion
+{% endblock %}
+
+{% block content %}
+	<h2 align=Center>New discussion</h2>
+	<hr>
+	<form action='{% url "forum_body:new_discussion" topic.name %}' method='POST'>
+		{% csrf_token %}
+		{{ form.as_p }}
+		<button name='submit'>Enter</button>
+	</form>
+{% endblock %}

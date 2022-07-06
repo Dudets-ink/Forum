@@ -1,0 +1,51 @@
+{% extends 'forum_body/base.html' %}
+{% load bootstrap4 %}
+
+{% block title %}
+	- {{ discussion.head }}
+{% endblock %}
+
+{% block page_header %}
+	<h2 class='text-center'>{{ discussion.head }}</h2>
+{% endblock page_header %}
+
+{% block content %}
+		{% for message in messages %}
+	<div class='card mb-4'>
+			<h5 class='card-header'>
+				{{ message.owner.username }}. {{ message.date_added }} <small>
+				{% if user.id == message.owner.id %}	
+					<a href="{% url 'forum_body:delete_message' topic.id discussion.id message.id %}"
+				   		class='btn btn-primary float-right '>
+					Delete
+					</a>
+					<a href="{% url 'forum_body:message_edit' topic.name discussion.id message.id %}"
+				  	 	class='btn btn-primary float-right mr-3'>
+						Edit
+					</a>
+					{% endif %}</small>
+			</h5>
+		<div class='card-body'>
+			{{ message.text|linebreaks }}
+		</div>
+
+	</div>
+		{% empty %}
+			<p class='card-header'>There's no comments, be first!</p>
+		{% endfor %}
+	<hr>
+	{% if user.is_authenticated %}
+	<p>Enter  message:</p>
+		<form action='' method='POST' class='form'>
+			{% csrf_token %}
+			{% bootstrap_form form %}
+			{% buttons %}
+			<button name='submit' class='btn btn-primary'>Enter</button>
+			{% endbuttons %}
+
+			<input type='hidden' value='{{user.id}}' name='owner' />
+		</form>
+	{% else %}
+		<p class='card-header'>Login in to comment discussion</p>
+	{% endif %}
+{% endblock %}

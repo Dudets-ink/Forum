@@ -1,0 +1,33 @@
+{% extends "forum_body/base.html" %}
+{% load bootstrap4 %}
+
+{% block page_header %}
+	<div class='jumbotron'>
+		<h1 class='display-8'>Welcome to Forum 4all!</h1>
+		<p class='lead'>
+			This is a place, where you can talk about almost everything with unknown people or with your friends. 
+		</p>
+	</div>
+{% endblock page_header %}
+
+{% block content %}
+	<h2 align=Center>Topics</h2>
+	{% if user.is_authenticated %}
+		<a href="{% url 'forum_body:new_topic' %}"
+	   	   class='btn btn-primary mb-4'>
+			Add topic
+		</a>
+	{% else %}
+		<p class='btn btn-primary mb-4'>Login to create new topics</p>
+	{% endif %}
+	{% for topic in topics %}
+		<div class='card mb-2'>
+			<a href="{% url 'forum_body:topic' topic.name %}"
+			   class='card-header'>
+				{{ topic.name }}
+			</a>
+		</div>
+	{% empty %}
+			<p class='card-header'>There's no topics, but you can create your own!</p>
+	{% endfor %}
+{% endblock %}

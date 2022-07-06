@@ -1,0 +1,15 @@
+{% extends 'forum_body/base.html' %}
+
+{% block title %}
+	- add topic
+{% endblock %}
+
+{% block content %}
+	<h2 align=Center>Add topic</h2>
+	<hr>
+	<form method='POST' action="{% url 'forum_body:new_topic' %}">
+		{% csrf_token %}
+		{{ form.as_p }}
+		<button name='submit'>Add topic</button>
+	</form>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'forum_body/base.html' %}
+{% load bootstrap4 %}
+
+{% block title %}
+	- log in
+{% endblock %}
+
+{% block page_header %}
+	<h2>Log in to your account</h2>
+{% endblock page_header %}
+
+{% block content %}
+	<form action='{% url "users:login" %}' method='POST' class='form'>
+		{% csrf_token %}
+		{% bootstrap_form form %}
+		{% buttons %}
+		<button name='submit'>Login in</button>
+		{% endbuttons %}
+		<input type='hidden' name='next' value='{% url "forum_body:index" %}' />
+	</form>
+{% endblock %}
