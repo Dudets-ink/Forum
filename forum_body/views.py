@@ -9,7 +9,7 @@ from django.http import Http404
 def check_user_ownership(request, place):
     """Comparas user and place owner, if it different, raises a 404 error"""
 
-    if place.owner != request.user.id:
+    if place.owner.id != request.user.id:
         raise Http404
 
 # Create your views here.
@@ -71,7 +71,6 @@ def message_edit(request, topic_name, discussion_id, message_id):
     if request.method != 'POST':
         edit_form = EditForm(instance=message)
     else:
-        redacted_mark = 'redacted'
         edit_form = EditForm(instance=message, data=request.POST)
         if edit_form.is_valid():
             edit_form.save()
