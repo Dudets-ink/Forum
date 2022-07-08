@@ -24,12 +24,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-yfyiyod-7*=rzxj3pr^r&r5s=y9w2@w5-^ep@p)*981z88$-6m'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = True
 
-#if os.environ.get('DEBUG') == 'TRUE':
- #   DEBUG = True
-#else:
-#    DEBUG = False
+if os.environ.get('DEBUG') == 'TRUE':
+    DEBUG = True
+else:
+    DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -37,11 +37,14 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    # my apps
     'forum_body',
     'users',
 
+    # other apps
     'bootstrap4',
 
+    # django apps
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

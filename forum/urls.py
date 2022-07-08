@@ -18,6 +18,6 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('forum_body.urls')), # функционал форума
-    path('user/', include('users.urls')), # пользователи
+    path('', include('forum_body.urls')), # forum pages
+    path('user/', include('users.urls')), # user pages
 ]

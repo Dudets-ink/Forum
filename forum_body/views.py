@@ -4,10 +4,10 @@ from .forms import MessageForm, EditForm, TopicAddForm, NewDiscussionForm
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
 
-# Secondary functions
+# Help functions
 
 def check_user_ownership(request, place):
-    """Comparas user and place owner, if it different, raises a 404 error"""
+    """Compares user and place owner ids, if it different, raises a 404 error"""
 
     if place.owner.id != request.user.id:
         raise Http404
@@ -15,7 +15,7 @@ def check_user_ownership(request, place):
 # Create your views here.
 
 def index(request):
-    """Создает главную страницу"""
+    """Renders homepage"""
 
     topics = Topic.objects.all()
     context = {'topics':topics}
@@ -23,9 +23,9 @@ def index(request):
     return render(request, 'forum_body/index.html', context)
 
 def topic(request, topic_name):
-    """Создает страницу выбора обсуждения"""
+    """Renders topic page"""
     
-    topic = Topic.objects.get(name=topic_name)
+    topic = get_object_or_404(Topic, name=topic_name)
     discussions = topic.discuss_set.all()
     discussion = Discuss.objects.all()
     context = {
@@ -37,12 +37,13 @@ def topic(request, topic_name):
 
 
 def discussion(request, topic_name, discussion_id):
-    """Создает страницу обсуждения темы"""
+    """Renders discussion page and implements message creation form"""
 
-    topic = Topic.objects.get(name=topic_name)
-    discussion = Discuss.objects.get(id=discussion_id) 
+    topic = get_object_or_404(Topic, name=topic_name)
+    discussion = get_object_or_404(Discuss, id=discussion_id) 
     messages = discussion.messages_set.all()
     
+    # message creation form
     if request.method != 'POST':
         message_form = MessageForm()
     else:
@@ -61,11 +62,11 @@ def discussion(request, topic_name, discussion_id):
     
 @login_required
 def message_edit(request, topic_name, discussion_id, message_id):
-    """Редактирование сообщений темы"""
+    """Renders message edit page"""
 
-    topic = Topic.objects.get(name=topic_name)
-    discussion = Discuss.objects.get(id=discussion_id)
-    message = Messages.objects.get(id=message_id)
+    topic = get_object_or_404(Topic, name=topic_name)
+    discussion = get_object_or_404(Discuss, id=discussion_id)
+    message = get_object_or_404(Messages, id=message_id)
     check_user_ownership(request, message)
 
     if request.method != 'POST':
@@ -82,11 +83,11 @@ def message_edit(request, topic_name, discussion_id, message_id):
 
 @login_required
 def new_topic(request):
-    """Добавлеяет тему"""
+    """Renders message creation page"""
     
     if request.method != 'POST':
         topic_add_form = TopicAddForm()
-    else:
+    else:   
         topic_add_form = TopicAddForm(data=request.POST)
         if topic_add_form.is_valid():
             topic_add_form.save()
@@ -96,9 +97,9 @@ def new_topic(request):
 
 @login_required
 def new_discussion(request, topic_name):
-    """Создает новое обсуждение темы"""
+    """Renders discussion creation page"""
 
-    topic = Topic.objects.get(name=topic_name)
+    topic = get_object_or_404(Topic, name=topic_name)
 
     if request.method != 'POST':
         new_discussion_form = NewDiscussionForm()
@@ -113,11 +114,11 @@ def new_discussion(request, topic_name):
     return render(request, 'forum_body/new_discussion.html', context)
 
 def delete_message(request,topic_id, discussion_id, message_id):
-    """Удаляет из базы данных запись"""
+    """Deletes message from discussion page and db"""
 
-    topic = Topic.objects.get(id=topic_id)
-    discussion = Discuss.objects.get(id=discussion_id)
-    message = Messages.objects.get(id=message_id)
+    topic = get_object_or_404(Topic, id=topic_id)
+    discussion = get_object_or_404(Discuss, id=discussion_id)
+    message = get_object_or_404(Messages, id=message_id)
     check_user_ownership(request, message)
     
     message.delete()
