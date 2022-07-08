@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Topic, Discuss, Messages
 from .forms import MessageForm, EditForm, TopicAddForm, NewDiscussionForm
 from django.contrib.auth.decorators import login_required
