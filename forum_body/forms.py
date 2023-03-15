@@ -2,8 +2,6 @@ from django import forms
 from .models import Messages, Topic, Discuss
 
 class MessageForm(forms.ModelForm):
-    """Форма добавления сообщения"""
-
     class Meta:
         model = Messages
         fields = ['owner', 'text']
@@ -18,7 +16,7 @@ class MessageForm(forms.ModelForm):
                 }
 
 class EditForm(forms.ModelForm):
-    """Форма редактрирования сообщения"""
+    """Message editing form"""
 
     class Meta:
         model = Messages
@@ -33,8 +31,6 @@ class EditForm(forms.ModelForm):
                 }
 
 class TopicAddForm(forms.ModelForm):
-    """Форма добавления темы"""
-
     class Meta:
         model = Topic
         fields = ['name']  
