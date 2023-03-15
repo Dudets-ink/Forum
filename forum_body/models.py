@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 class Topic(models.Model):
-    """Главная тема обсуждения"""
+    """Discussion"""
 
     name = models.CharField(max_length=100)
     date_added = models.DateTimeField(auto_now_add=True)
@@ -13,7 +13,7 @@ class Topic(models.Model):
         return self.name
 
 class Discuss(models.Model):
-    """Ветвь обсуждения"""
+    """Branch of discussion"""
 
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
     head = models.CharField(max_length=100)
@@ -23,7 +23,7 @@ class Discuss(models.Model):
         return self.head
 
 class Messages(models.Model):
-    """Сообщение в ветви обсуждения"""
+    """Message in branch of discussion"""
 
     discuss = models.ForeignKey(Discuss, on_delete=models.CASCADE) 
     owner = models.ForeignKey(User, on_delete=models.CASCADE)

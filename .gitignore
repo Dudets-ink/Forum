@@ -1,3 +1,5 @@
-bf_env/
-__pycache__/
+venv/
+**/migrations/
+**/__pycache__/
 *.sqlite3
+*.swp

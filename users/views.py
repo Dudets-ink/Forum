@@ -4,8 +4,6 @@ from django.contrib.auth.forms import UserCreationForm
 
 # Create your views here.
 def register(request):
-    """Регистрация нового пользователя"""
-
     if request.method != 'POST':
         register_form = UserCreationForm()
     else:
